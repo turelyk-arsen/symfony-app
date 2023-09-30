@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  php:
+    container_name: php-app
+    build:
+      context: ./docker/php
+    # ports:
+    #   - "8000:8000"
+    depends_on:
+      - mysql
+    # environment:
+    #   - DATABASE_URL=mysql://symfony:symfony@db/movies
+    volumes:
+      - ./:/app
+    expose:
+      - 9000
+
+  nginx:
+    container_name: nginx-app
+    build: 
+      context: ./docker/nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./:/app
+    # depends_on:
+    #   - php-app
+
+  mysql:
+    container_name: mysql-app
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+#     restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=symfony
+      - MYSQL_DATABASE=movies
+      - MYSQL_USER=symfony
+      - MYSQL_PASSWORD=symfony
+    ports:
+      - 3307:3306
+    volumes:
+      - mysql:/var/lib/mysql
+
+volumes:
+  mysql:

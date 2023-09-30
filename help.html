@@ -1,0 +1,15 @@
+1.Create Dockerfile and docker-compose.yml
+docker compose up --build  
+docker exec -it php-app bash
+pwd   ----check
+composer     ----check
+
+2.composer create-project symfony/skeleton:"6.3.*" my_project_directory
+cd my_project_directory
+mv ./* ../
+mv .env .gitignore ../
+rm -r my_project_directory
+
+3. MySQL add service in docker-compose.yml
+docker compose stop
+docker compose up --build 
